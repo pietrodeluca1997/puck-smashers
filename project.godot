@@ -11,7 +11,13 @@ config_version=5
 [application]
 
 config/name="puck-smashers"
+run/main_scene="uid://cqnys0gdbmb0f"
 config/features=PackedStringArray("4.4", "GL Compatibility")
+
+[display]
+
+window/size/viewport_width=1600
+window/size/viewport_height=900
 
 [dotnet]
 
