@@ -1,0 +1,89 @@
+[gd_scene load_steps=7 format=3 uid="uid://cqnys0gdbmb0f"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_su7we"]
+size = Vector2(60, 30)
+
+[sub_resource type="BoxMesh" id="BoxMesh_su7we"]
+size = Vector3(60, 2, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_lxhs6"]
+size = Vector3(1, 2, 12)
+
+[sub_resource type="SphereMesh" id="SphereMesh_su7we"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_lxhs6"]
+
+[sub_resource type="Environment" id="Environment_su7we"]
+
+[node name="PrototypeArena" type="Node3D"]
+
+[node name="Floor" type="Node3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+mesh = SubResource("QuadMesh_su7we")
+
+[node name="NorthSideWall" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -15.5)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="NorthSideWall"]
+mesh = SubResource("BoxMesh_su7we")
+
+[node name="SouthSideWall" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 15.5)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="SouthSideWall"]
+mesh = SubResource("BoxMesh_su7we")
+
+[node name="LeftNorthGoalWall" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30.5, 1, -9)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="LeftNorthGoalWall"]
+mesh = SubResource("BoxMesh_lxhs6")
+
+[node name="LeftSouthGoalWall" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30.5, 1, 9)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="LeftSouthGoalWall"]
+mesh = SubResource("BoxMesh_lxhs6")
+
+[node name="RightSouthGoalWall" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30.5, 1, 9)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="RightSouthGoalWall"]
+mesh = SubResource("BoxMesh_lxhs6")
+
+[node name="RightNorthGoalWall" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30.5, 1, -9)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="RightNorthGoalWall"]
+mesh = SubResource("BoxMesh_lxhs6")
+
+[node name="Ball" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ball"]
+mesh = SubResource("SphereMesh_su7we")
+
+[node name="Player" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 0.5, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Player"]
+mesh = SubResource("SphereMesh_lxhs6")
+
+[node name="Bot" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 0.5, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Bot"]
+mesh = SubResource("SphereMesh_lxhs6")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 10, 0)
+projection = 1
+size = 34.6
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_su7we")
+
+[node name="SunLight" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1.19249e-08, 1, 0, -1, 1.19249e-08, 0, 0, 0)
