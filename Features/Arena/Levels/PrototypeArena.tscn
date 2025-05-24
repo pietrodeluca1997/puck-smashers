@@ -1,12 +1,31 @@
-[gd_scene load_steps=23 format=3 uid="uid://cqnys0gdbmb0f"]
+[gd_scene load_steps=27 format=3 uid="uid://cqnys0gdbmb0f"]
 
 [ext_resource type="Script" uid="uid://dkoj1ylx1b6db" path="res://Features/Player/Scripts/Player.gd" id="1_lxhs6"]
 
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_voni2"]
+bounce = 1.0
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_lxhs6"]
+radius = 1.0
+
+[sub_resource type="SphereMesh" id="SphereMesh_lxhs6"]
+radius = 1.0
+height = 2.0
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_lxhs6"]
+bounce = 0.7
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_voni2"]
+radius = 1.5
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_ypwgc"]
+bounce = 0.7
+
 [sub_resource type="QuadMesh" id="QuadMesh_su7we"]
-size = Vector2(60, 30)
+size = Vector2(62, 33)
 
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_lxhs6"]
-points = PackedVector3Array(30, 15, 0, 30, -15, 0, -30, 15, 0, -30, -15, 0)
+points = PackedVector3Array(31, 16.5, 0, 31, -16.5, 0, -31, 16.5, 0, -31, -16.5, 0)
 
 [sub_resource type="BoxMesh" id="BoxMesh_su7we"]
 size = Vector3(60, 2, 1)
@@ -32,30 +51,17 @@ points = PackedVector3Array(-0.5, -1, -6, 0.5, -1, -6, -0.5, -1, 6, -0.5, 1, -6,
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_ypwgc"]
 points = PackedVector3Array(-0.5, -1, -6, 0.5, -1, -6, -0.5, -1, 6, -0.5, 1, -6, 0.5, 1, -6, 0.5, -1, 6, -0.5, 1, 6, 0.5, 1, 6)
 
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_voni2"]
-bounce = 1.0
+[sub_resource type="BoxShape3D" id="BoxShape3D_lxhs6"]
+size = Vector3(1, 2, 9)
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_lxhs6"]
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_lxhs6"]
 
-[sub_resource type="SphereMesh" id="SphereMesh_lxhs6"]
-
-[sub_resource type="ViewportTexture" id="ViewportTexture_lxhs6"]
-viewport_path = NodePath("SubViewport")
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lxhs6"]
-resource_local_to_scene = true
-albedo_texture = SubResource("ViewportTexture_lxhs6")
-
-[sub_resource type="PlaneMesh" id="PlaneMesh_lxhs6"]
-size = Vector2(0.5, 3)
-
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_lxhs6"]
-bounce = 0.25
-
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_ypwgc"]
-bounce = 0.25
+[sub_resource type="Sky" id="Sky_voni2"]
+sky_material = SubResource("ProceduralSkyMaterial_lxhs6")
 
 [sub_resource type="Environment" id="Environment_su7we"]
+background_mode = 2
+sky = SubResource("Sky_voni2")
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lxhs6"]
 bg_color = Color(0.172833, 0.172833, 0.172833, 1)
@@ -63,89 +69,23 @@ bg_color = Color(0.172833, 0.172833, 0.172833, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_voni2"]
 bg_color = Color(7.73702e-06, 0.493355, 0.0916723, 1)
 
+[sub_resource type="ViewportTexture" id="ViewportTexture_lxhs6"]
+viewport_path = NodePath("HUD/SubViewport")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lxhs6"]
+resource_local_to_scene = true
+albedo_texture = SubResource("ViewportTexture_lxhs6")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_lxhs6"]
+size = Vector2(1, 4)
+
 [node name="PrototypeArena" type="Node3D"]
 
-[node name="Floor" type="Node3D" parent="."]
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
-mesh = SubResource("QuadMesh_su7we")
-
-[node name="StaticBody3D" type="StaticBody3D" parent="Floor/MeshInstance3D"]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor/MeshInstance3D/StaticBody3D"]
-shape = SubResource("ConvexPolygonShape3D_lxhs6")
-
-[node name="NorthSideWall" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -15.5)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="NorthSideWall"]
-mesh = SubResource("BoxMesh_su7we")
-
-[node name="StaticBody3D" type="StaticBody3D" parent="NorthSideWall/MeshInstance3D"]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="NorthSideWall/MeshInstance3D/StaticBody3D"]
-shape = SubResource("ConvexPolygonShape3D_voni2")
-
-[node name="SouthSideWall" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 15.5)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="SouthSideWall"]
-mesh = SubResource("BoxMesh_su7we")
-
-[node name="StaticBody3D" type="StaticBody3D" parent="SouthSideWall/MeshInstance3D"]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="SouthSideWall/MeshInstance3D/StaticBody3D"]
-shape = SubResource("ConvexPolygonShape3D_ue6p7")
-
-[node name="LeftNorthGoalWall" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30.5, 1, -9)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="LeftNorthGoalWall"]
-mesh = SubResource("BoxMesh_lxhs6")
-
-[node name="StaticBody3D" type="StaticBody3D" parent="LeftNorthGoalWall/MeshInstance3D"]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="LeftNorthGoalWall/MeshInstance3D/StaticBody3D"]
-shape = SubResource("ConvexPolygonShape3D_xnax1")
-
-[node name="LeftSouthGoalWall" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30.5, 1, 9)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="LeftSouthGoalWall"]
-mesh = SubResource("BoxMesh_lxhs6")
-
-[node name="StaticBody3D" type="StaticBody3D" parent="LeftSouthGoalWall/MeshInstance3D"]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="LeftSouthGoalWall/MeshInstance3D/StaticBody3D"]
-shape = SubResource("ConvexPolygonShape3D_7nguq")
-
-[node name="RightSouthGoalWall" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30.5, 1, 9)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="RightSouthGoalWall"]
-mesh = SubResource("BoxMesh_lxhs6")
-
-[node name="StaticBody3D" type="StaticBody3D" parent="RightSouthGoalWall/MeshInstance3D"]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="RightSouthGoalWall/MeshInstance3D/StaticBody3D"]
-shape = SubResource("ConvexPolygonShape3D_gtda5")
-
-[node name="RightNorthGoalWall" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30.5, 1, -9)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="RightNorthGoalWall"]
-mesh = SubResource("BoxMesh_lxhs6")
-
-[node name="StaticBody3D" type="StaticBody3D" parent="RightNorthGoalWall/MeshInstance3D"]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="RightNorthGoalWall/MeshInstance3D/StaticBody3D"]
-shape = SubResource("ConvexPolygonShape3D_ypwgc")
-
 [node name="Ball" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
 [node name="RigidBody3D" type="RigidBody3D" parent="Ball"]
+axis_lock_linear_y = true
 physics_material_override = SubResource("PhysicsMaterial_voni2")
 continuous_cd = true
 
@@ -156,21 +96,22 @@ shape = SubResource("SphereShape3D_lxhs6")
 mesh = SubResource("SphereMesh_lxhs6")
 skeleton = NodePath("../..")
 
-[node name="ArrowPivot" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.9988, 2.50138, -0.0424843)
-
-[node name="ArrowMesh3D" type="MeshInstance3D" parent="ArrowPivot"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.000518799, 0.00369263, 2.30493)
-material_override = SubResource("StandardMaterial3D_lxhs6")
-mesh = SubResource("PlaneMesh_lxhs6")
-skeleton = NodePath("../../Player")
-
 [node name="Player" type="RigidBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 0.5, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 1, 0)
+axis_lock_linear_y = true
 physics_material_override = SubResource("PhysicsMaterial_lxhs6")
 continuous_cd = true
-max_contacts_reported = 2
+contact_monitor = true
+max_contacts_reported = 1
 script = ExtResource("1_lxhs6")
+
+[node name="PlayerInteractArea" type="Area3D" parent="Player"]
+transform = Transform3D(1, -2.90045e-05, -0.00101029, 3.02329e-05, 0.999999, 0.00122514, 0.00101026, -0.00122517, 0.999999, 0, 0, 0)
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Player/PlayerInteractArea"]
+shape = SubResource("SphereShape3D_voni2")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
 shape = SubResource("SphereShape3D_lxhs6")
@@ -180,9 +121,10 @@ mesh = SubResource("SphereMesh_lxhs6")
 skeleton = NodePath("../..")
 
 [node name="Bot" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 0.5, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 1, 0)
 
 [node name="RigidBody3D" type="RigidBody3D" parent="Bot"]
+axis_lock_linear_y = true
 physics_material_override = SubResource("PhysicsMaterial_ypwgc")
 continuous_cd = true
 max_contacts_reported = 5
@@ -199,15 +141,112 @@ transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 10,
 projection = 1
 size = 34.6
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+[node name="Arena" type="Node" parent="."]
+
+[node name="Floor" type="Node3D" parent="Arena"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Arena/Floor"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0.032896, 0.0159636, 0.00293732)
+mesh = SubResource("QuadMesh_su7we")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Arena/Floor/MeshInstance3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Arena/Floor/MeshInstance3D/StaticBody3D"]
+shape = SubResource("ConvexPolygonShape3D_lxhs6")
+
+[node name="NorthSideWall" type="Node3D" parent="Arena"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -17)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Arena/NorthSideWall"]
+mesh = SubResource("BoxMesh_su7we")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Arena/NorthSideWall/MeshInstance3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Arena/NorthSideWall/MeshInstance3D/StaticBody3D"]
+shape = SubResource("ConvexPolygonShape3D_voni2")
+
+[node name="SouthSideWall" type="Node3D" parent="Arena"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 17)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Arena/SouthSideWall"]
+mesh = SubResource("BoxMesh_su7we")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Arena/SouthSideWall/MeshInstance3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Arena/SouthSideWall/MeshInstance3D/StaticBody3D"]
+shape = SubResource("ConvexPolygonShape3D_ue6p7")
+
+[node name="LeftNorthGoalWall" type="Node3D" parent="Arena"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30.5, 1, -10.5)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Arena/LeftNorthGoalWall"]
+mesh = SubResource("BoxMesh_lxhs6")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Arena/LeftNorthGoalWall/MeshInstance3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Arena/LeftNorthGoalWall/MeshInstance3D/StaticBody3D"]
+shape = SubResource("ConvexPolygonShape3D_xnax1")
+
+[node name="LeftSouthGoalWall" type="Node3D" parent="Arena"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30.5, 1, 10.5)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Arena/LeftSouthGoalWall"]
+mesh = SubResource("BoxMesh_lxhs6")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Arena/LeftSouthGoalWall/MeshInstance3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Arena/LeftSouthGoalWall/MeshInstance3D/StaticBody3D"]
+shape = SubResource("ConvexPolygonShape3D_7nguq")
+
+[node name="RightSouthGoalWall" type="Node3D" parent="Arena"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30.5, 1, 10.5)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Arena/RightSouthGoalWall"]
+mesh = SubResource("BoxMesh_lxhs6")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Arena/RightSouthGoalWall/MeshInstance3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Arena/RightSouthGoalWall/MeshInstance3D/StaticBody3D"]
+shape = SubResource("ConvexPolygonShape3D_gtda5")
+
+[node name="RightNorthGoalWall" type="Node3D" parent="Arena"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30.5, 1, -10.5)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Arena/RightNorthGoalWall"]
+mesh = SubResource("BoxMesh_lxhs6")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Arena/RightNorthGoalWall/MeshInstance3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Arena/RightNorthGoalWall/MeshInstance3D/StaticBody3D"]
+shape = SubResource("ConvexPolygonShape3D_ypwgc")
+
+[node name="LeftGoal" type="Area3D" parent="Arena"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30.5, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Arena/LeftGoal"]
+transform = Transform3D(1, 0.00038914, 4.83236e-05, -0.000389145, 1, 0.000147285, -4.82847e-05, -0.000147297, 1, 0.00105095, 1.00761, 0.000573635)
+shape = SubResource("BoxShape3D_lxhs6")
+
+[node name="RightGoal" type="Area3D" parent="Arena"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30.5, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Arena/RightGoal"]
+transform = Transform3D(1, 0.00038914, 4.83236e-05, -0.000389145, 1, 0.000147285, -4.82847e-05, -0.000147297, 1, 0.00105095, 1.00761, 0.000573635)
+shape = SubResource("BoxShape3D_lxhs6")
+
+[node name="Environment" type="Node" parent="."]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Environment"]
 environment = SubResource("Environment_su7we")
 
-[node name="SunLight" type="DirectionalLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1.19249e-08, 1, 0, -1, 1.19249e-08, 0, 0, 0)
+[node name="SunLight" type="DirectionalLight3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 0.919822, 0.392337, 0, -0.392337, 0.919822, 0, 0, 0)
 
-[node name="SubViewport" type="SubViewport" parent="."]
+[node name="HUD" type="Node" parent="."]
 
-[node name="ProgressBar" type="ProgressBar" parent="SubViewport"]
+[node name="SubViewport" type="SubViewport" parent="HUD"]
+
+[node name="ProgressBar" type="ProgressBar" parent="HUD/SubViewport"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -218,3 +257,15 @@ theme_override_styles/fill = SubResource("StyleBoxFlat_voni2")
 max_value = 50.0
 fill_mode = 2
 metadata/_edit_use_anchors_ = true
+
+[node name="ArrowPivot" type="Node3D" parent="HUD"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.0364, 5.05875, -0.0726873)
+
+[node name="ArrowMesh3D" type="MeshInstance3D" parent="HUD/ArrowPivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.000518799, 0.00369263, 3.54848)
+material_override = SubResource("StandardMaterial3D_lxhs6")
+mesh = SubResource("PlaneMesh_lxhs6")
+skeleton = NodePath("../../../Player")
+
+[connection signal="body_entered" from="Arena/LeftGoal" to="Player" method="_on_left_goal_body_entered"]
+[connection signal="body_entered" from="Arena/RightGoal" to="Player" method="_on_right_goal_body_entered"]
