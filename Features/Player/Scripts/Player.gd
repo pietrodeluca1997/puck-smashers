@@ -13,6 +13,8 @@ var is_holding: bool = false
 var force_increase_factor: float = 50.0
 var last_mouse_world_direction: Vector3 = Vector3.ZERO
 var start_countdown_timer: Timer
+var reset_player_timer: Timer
+var reset_bot_timer: Timer
 var ball_start_location: Vector3
 var player_start_location: Vector3
 var bot_start_location: Vector3
@@ -35,6 +37,9 @@ func reset() -> void:
 	
 	start_countdown()
 	
+func restart_game():
+	left_goal_score.text = "0"
+	right_goal_score.text = "0"
 	
 func start_countdown() -> void:
 	start_countdown_label.text = "3"
@@ -67,10 +72,33 @@ func _ready():
 	
 	direction_and_force_bar_mesh_pivot.visible = false
 	
+	reset_player_timer = Timer.new()
+	reset_player_timer.wait_time = 2.0
+	reset_player_timer.one_shot = false
+	add_child(reset_player_timer)	
+	reset_player_timer.connect("timeout", Callable(self, "_on_reset_player_timer_timeout"))
+	
+	reset_bot_timer = Timer.new()
+	reset_bot_timer.wait_time = 2.0
+	reset_bot_timer.one_shot = false
+	add_child(reset_bot_timer)	
+	reset_bot_timer.connect("timeout", Callable(self, "_on_reset_bot_timer_timeout"))
+		
 	reset()
 	
 	start_countdown()
 	
+func _on_reset_player_timer_timeout():
+	reset_player_timer.stop()	
+	freeze = true
+	freeze = false
+	global_position = player_start_location
+
+func _on_reset_bot_timer_timeout():
+	reset_bot_timer.stop()	
+	bot.freeze = true
+	bot.freeze = false
+	bot.global_position = bot_start_location
 	
 func _on_countdown_timer_timeout():
 	var text_number: int = int(start_countdown_label.text)
@@ -124,17 +152,41 @@ func get_mouse_3D_info(mouse_position: Vector2, mask: int) -> Dictionary:
 
 	return space_state.intersect_ray(query)
 
+func reset_player() -> void:
+	reset_player_timer.start()
+	
+func reset_bot() -> void:
+	reset_bot_timer.start()
 
 func _on_left_goal_body_entered(body: Node3D) -> void:	
 	match body.name:
 		"Ball":
-			right_goal_score.text = str(int(right_goal_score.text) + 1)
+			var new_score: int = int(right_goal_score.text) + 1
+			
+			if (new_score == 5):
+				restart_game()
+			else:
+				right_goal_score.text = str(new_score)
+				
 			reset()
+		"Player":
+			reset_player()
+		"Bot":
+			reset_bot()
 
 
 func _on_right_goal_body_entered(body: Node3D) -> void:
 	match body.name:
 		"Ball":
-			left_goal_score.text = str(int(left_goal_score.text) + 1)
+			var new_score: int = int(left_goal_score.text) + 1
+			
+			if (new_score == 5):
+				restart_game()
+			else:
+				left_goal_score.text = str(new_score)
+			
 			reset()
-		
+		"Player":
+			reset_player()
+		"Bot":
+			reset_bot()
