@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://cqnys0gdbmb0f"]
+[gd_scene load_steps=30 format=3 uid="uid://cqnys0gdbmb0f"]
 
 [ext_resource type="Script" uid="uid://dkoj1ylx1b6db" path="res://Features/Player/Scripts/Player.gd" id="1_lxhs6"]
 
@@ -79,20 +79,27 @@ albedo_texture = SubResource("ViewportTexture_lxhs6")
 [sub_resource type="PlaneMesh" id="PlaneMesh_lxhs6"]
 size = Vector2(1, 4)
 
+[sub_resource type="LabelSettings" id="LabelSettings_lxhs6"]
+font_size = 72
+
+[sub_resource type="LabelSettings" id="LabelSettings_voni2"]
+font_size = 72
+
+[sub_resource type="LabelSettings" id="LabelSettings_ypwgc"]
+font_size = 114
+
 [node name="PrototypeArena" type="Node3D"]
 
-[node name="Ball" type="Node3D" parent="."]
+[node name="Ball" type="RigidBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-
-[node name="RigidBody3D" type="RigidBody3D" parent="Ball"]
 axis_lock_linear_y = true
 physics_material_override = SubResource("PhysicsMaterial_voni2")
 continuous_cd = true
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Ball/RigidBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ball"]
 shape = SubResource("SphereShape3D_lxhs6")
 
-[node name="SphereMesh3D" type="MeshInstance3D" parent="Ball/RigidBody3D/CollisionShape3D"]
+[node name="SphereMesh3D" type="MeshInstance3D" parent="Ball/CollisionShape3D"]
 mesh = SubResource("SphereMesh_lxhs6")
 skeleton = NodePath("../..")
 
@@ -120,19 +127,17 @@ shape = SubResource("SphereShape3D_lxhs6")
 mesh = SubResource("SphereMesh_lxhs6")
 skeleton = NodePath("../..")
 
-[node name="Bot" type="Node3D" parent="."]
+[node name="Bot" type="RigidBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 1, 0)
-
-[node name="RigidBody3D" type="RigidBody3D" parent="Bot"]
 axis_lock_linear_y = true
 physics_material_override = SubResource("PhysicsMaterial_ypwgc")
 continuous_cd = true
 max_contacts_reported = 5
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Bot/RigidBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Bot"]
 shape = SubResource("SphereShape3D_lxhs6")
 
-[node name="SphereMesh3D" type="MeshInstance3D" parent="Bot/RigidBody3D/CollisionShape3D"]
+[node name="SphereMesh3D" type="MeshInstance3D" parent="Bot/CollisionShape3D"]
 mesh = SubResource("SphereMesh_lxhs6")
 skeleton = NodePath("../..")
 
@@ -266,6 +271,49 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.000518799, 0.00369263, 3.54
 material_override = SubResource("StandardMaterial3D_lxhs6")
 mesh = SubResource("PlaneMesh_lxhs6")
 skeleton = NodePath("../../../Player")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="HUD"]
+
+[node name="MarginContainer" type="MarginContainer" parent="HUD/CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HUD/CanvasLayer/MarginContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HUD/CanvasLayer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme_override_constants/separation = 25
+
+[node name="LeftGoalScore" type="Label" parent="HUD/CanvasLayer/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "0"
+label_settings = SubResource("LabelSettings_lxhs6")
+
+[node name="SeparatorIcon" type="Label" parent="HUD/CanvasLayer/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "-"
+label_settings = SubResource("LabelSettings_voni2")
+
+[node name="RightGoalScore" type="Label" parent="HUD/CanvasLayer/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "0"
+label_settings = SubResource("LabelSettings_lxhs6")
+
+[node name="StartCountdown" type="Label" parent="HUD/CanvasLayer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "3"
+label_settings = SubResource("LabelSettings_ypwgc")
 
 [connection signal="body_entered" from="Arena/LeftGoal" to="Player" method="_on_left_goal_body_entered"]
 [connection signal="body_entered" from="Arena/RightGoal" to="Player" method="_on_right_goal_body_entered"]

@@ -3,13 +3,83 @@ extends RigidBody3D
 @onready var camera = $"../Camera3D"
 @onready var direction_and_force_bar = $"../HUD/SubViewport/ProgressBar"
 @onready var direction_and_force_bar_mesh_pivot = $"../HUD/ArrowPivot"
+@onready var left_goal_score = $"../HUD/CanvasLayer/MarginContainer/VBoxContainer/HBoxContainer/LeftGoalScore"
+@onready var right_goal_score = $"../HUD/CanvasLayer/MarginContainer/VBoxContainer/HBoxContainer/RightGoalScore"
+@onready var start_countdown_label = $"../HUD/CanvasLayer/MarginContainer/VBoxContainer/StartCountdown"
+@onready var ball: RigidBody3D = $"../Ball"
+@onready var bot: RigidBody3D = $"../Bot"
 
 var is_holding: bool = false
 var force_increase_factor: float = 50.0
 var last_mouse_world_direction: Vector3 = Vector3.ZERO
+var start_countdown_timer: Timer
+var ball_start_location: Vector3
+var player_start_location: Vector3
+var bot_start_location: Vector3
+
+func reset() -> void:
+	ball.global_position = ball_start_location
+	bot.global_position = bot_start_location
+	global_position = player_start_location
+	
+	start_countdown_label.visible = true
+	
+	ball.freeze_mode = RigidBody3D.FREEZE_MODE_KINEMATIC
+	ball.freeze = true
+
+	bot.freeze_mode = RigidBody3D.FREEZE_MODE_KINEMATIC
+	bot.freeze = true
+
+	freeze_mode = RigidBody3D.FREEZE_MODE_KINEMATIC
+	freeze = true
+	
+	start_countdown()
+	
+	
+func start_countdown() -> void:
+	start_countdown_label.text = "3"
+	
+	if (start_countdown_timer == null):
+		start_countdown_timer = Timer.new()
+		start_countdown_timer.wait_time = 1.0
+		start_countdown_timer.one_shot = false
+		add_child(start_countdown_timer)
+		start_countdown_timer.start()
+		
+		start_countdown_timer.connect("timeout", Callable(self, "_on_countdown_timer_timeout"))
+	else:
+		start_countdown_timer.start()
+	
+	
+func start_game() -> void:
+	start_countdown_label.text = "GO!"
+	start_countdown_timer.stop()
+	start_countdown_label.visible = false
+	
+	ball.freeze = false
+	bot.freeze = false
+	freeze = false
 
 func _ready():
+	ball_start_location = ball.global_position
+	bot_start_location = bot.global_position
+	player_start_location = global_position
+	
 	direction_and_force_bar_mesh_pivot.visible = false
+	
+	reset()
+	
+	start_countdown()
+	
+	
+func _on_countdown_timer_timeout():
+	var text_number: int = int(start_countdown_label.text)
+	text_number -= 1
+	
+	if (text_number == 0):		
+		start_game()
+	else:		
+		start_countdown_label.text = str(text_number)
 
 func _input(event: InputEvent):
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:		
@@ -17,12 +87,12 @@ func _input(event: InputEvent):
 			_ when event.is_pressed():
 				var result: Dictionary = get_mouse_3D_info(event.position, 2)
 				if result and result.collider and result.collider.name == "PlayerInteractArea":
-					print("crico no preier")
+
 					direction_and_force_bar_mesh_pivot.visible = true
 					is_holding = true
 
 			_ when event.is_released():
-				print("sorto o crique")
+
 				is_holding = false
 
 func _process(delta: float) -> void:
@@ -56,8 +126,15 @@ func get_mouse_3D_info(mouse_position: Vector2, mask: int) -> Dictionary:
 
 
 func _on_left_goal_body_entered(body: Node3D) -> void:	
-	pass
+	match body.name:
+		"Ball":
+			right_goal_score.text = str(int(right_goal_score.text) + 1)
+			reset()
 
 
 func _on_right_goal_body_entered(body: Node3D) -> void:
-	pass
+	match body.name:
+		"Ball":
+			left_goal_score.text = str(int(left_goal_score.text) + 1)
+			reset()
+		
