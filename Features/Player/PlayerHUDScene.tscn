@@ -1,0 +1,65 @@
+[gd_scene load_steps=5 format=3 uid="uid://dt0ytoidrf538"]
+
+[ext_resource type="Script" uid="uid://ru5auyqe4xfq" path="res://Features/Player/Scripts/PlayerHUD.cs" id="1_yjrko"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_87vw7"]
+font_size = 72
+outline_size = 10
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_yjrko"]
+font_size = 72
+outline_size = 10
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_todkk"]
+font_size = 114
+outline_size = 10
+outline_color = Color(0, 0, 0, 1)
+
+[node name="PlayerHUDScene" type="CanvasLayer" node_paths=PackedStringArray("LeftTeamScore", "RightTeamScore", "StartCountdown")]
+script = ExtResource("1_yjrko")
+LeftTeamScore = NodePath("MarginContainer/VBoxContainer/HBoxContainer/LeftTeamScore")
+RightTeamScore = NodePath("MarginContainer/VBoxContainer/HBoxContainer/RightTeamScore")
+StartCountdown = NodePath("MarginContainer/VBoxContainer/StartCountdown")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme_override_constants/separation = 25
+
+[node name="LeftTeamScore" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "0"
+label_settings = SubResource("LabelSettings_87vw7")
+
+[node name="SeparatorIcon" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "-"
+label_settings = SubResource("LabelSettings_yjrko")
+
+[node name="RightTeamScore" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "0"
+label_settings = SubResource("LabelSettings_87vw7")
+
+[node name="StartCountdown" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "3"
+label_settings = SubResource("LabelSettings_todkk")

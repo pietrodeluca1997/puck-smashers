@@ -1,0 +1,108 @@
+[gd_scene load_steps=13 format=3 uid="uid://dieb7rjlgu2xn"]
+
+[ext_resource type="Script" uid="uid://bwcyofgtbqwjt" path="res://Features/Player/Scripts/Player.cs" id="1_rl45e"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_rl45e"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7t0fh"]
+resource_local_to_scene = true
+albedo_texture = SubResource("ViewportTexture_rl45e")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_82wvc"]
+size = Vector2(1, 4)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rl45e"]
+bg_color = Color(0.172833, 0.172833, 0.172833, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1aowh"]
+bg_color = Color(7.73702e-06, 0.493355, 0.0916723, 1)
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_rl45e"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:angular_velocity")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath(".:linear_velocity")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+properties/3/path = NodePath(".:freeze")
+properties/3/spawn = true
+properties/3/replication_mode = 1
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_rl45e"]
+bounce = 0.7
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_44nf2"]
+radius = 5.0
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_rl45e"]
+radius = 1.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1aowh"]
+resource_local_to_scene = true
+
+[sub_resource type="SphereMesh" id="SphereMesh_7t0fh"]
+radius = 1.0
+height = 2.0
+
+[node name="PlayerSceneRoot" type="Node3D" node_paths=PackedStringArray("PlayerRigidBody", "DirectionAndForceBar", "DirectionAndForceBarMeshPivot", "MeshInstance")]
+script = ExtResource("1_rl45e")
+PlayerRigidBody = NodePath("Player")
+DirectionAndForceBar = NodePath("SubViewport/ProgressBar")
+DirectionAndForceBarMeshPivot = NodePath("ArrowPivot")
+MeshInstance = NodePath("Player/CollisionShape3D/SphereMesh3D")
+
+[node name="ArrowPivot" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
+
+[node name="ArrowMesh3D" type="MeshInstance3D" parent="ArrowPivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.000518799, 0.00369263, 3.54848)
+material_override = SubResource("StandardMaterial3D_7t0fh")
+mesh = SubResource("PlaneMesh_82wvc")
+skeleton = NodePath("../../Player")
+
+[node name="SubViewport" type="SubViewport" parent="."]
+
+[node name="ProgressBar" type="ProgressBar" parent="SubViewport"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_rl45e")
+theme_override_styles/fill = SubResource("StyleBoxFlat_1aowh")
+max_value = 50.0
+value = 25.0
+fill_mode = 2
+show_percentage = false
+metadata/_edit_use_anchors_ = true
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+root_path = NodePath("../Player")
+replication_config = SubResource("SceneReplicationConfig_rl45e")
+
+[node name="Player" type="RigidBody3D" parent="."]
+axis_lock_linear_y = true
+physics_material_override = SubResource("PhysicsMaterial_rl45e")
+continuous_cd = true
+contact_monitor = true
+max_contacts_reported = 4
+
+[node name="PlayerInteractArea" type="Area3D" parent="Player"]
+transform = Transform3D(1, -2.90045e-05, -0.00101029, 3.02329e-05, 0.999999, 0.00122514, 0.00101026, -0.00122517, 0.999999, 0, 0, 0)
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Player/PlayerInteractArea"]
+shape = SubResource("SphereShape3D_44nf2")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
+shape = SubResource("SphereShape3D_rl45e")
+
+[node name="SphereMesh3D" type="MeshInstance3D" parent="Player/CollisionShape3D"]
+material_override = SubResource("StandardMaterial3D_1aowh")
+mesh = SubResource("SphereMesh_7t0fh")
+skeleton = NodePath("../..")

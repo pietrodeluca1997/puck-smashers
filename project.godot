@@ -11,17 +11,21 @@ config_version=5
 [application]
 
 config/name="puck-smashers"
-run/main_scene="uid://cqnys0gdbmb0f"
-config/features=PackedStringArray("4.4", "GL Compatibility")
+run/main_scene="uid://c30s8mlyeyykg"
+config/features=PackedStringArray("4.4", "C#", "GL Compatibility")
 
 [display]
 
-window/size/viewport_width=1600
-window/size/viewport_height=900
+window/size/viewport_width=800
+window/size/viewport_height=600
 
 [dotnet]
 
 project/assembly_name="puck-smashers"
+
+[editor]
+
+run/main_run_args="--host"
 
 [physics]
 
